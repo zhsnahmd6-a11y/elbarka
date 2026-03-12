@@ -1,4 +1,3 @@
-import { BlurView } from "expo-blur";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { Tabs } from "expo-router";
 import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
@@ -37,14 +36,14 @@ function ClassicTabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: Colors.gold,
-        tabBarInactiveTintColor: Colors.tabInactive,
+        tabBarActiveTintColor: Colors.red,
+        tabBarInactiveTintColor: Colors.gray,
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: isIOS ? "transparent" : Colors.navy,
+          backgroundColor: Colors.white,
           borderTopWidth: 1,
-          borderTopColor: Colors.navyBorder,
-          elevation: 0,
+          borderTopColor: Colors.grayBorder,
+          elevation: 8,
           paddingBottom: isWeb ? 0 : insets.bottom,
           ...(isWeb ? { height: 84 } : {}),
         },
@@ -52,12 +51,9 @@ function ClassicTabLayout() {
           fontFamily: "Cairo_600SemiBold",
           fontSize: 11,
         },
-        tabBarBackground: () =>
-          isIOS ? (
-            <BlurView intensity={90} tint="dark" style={StyleSheet.absoluteFill} />
-          ) : isWeb ? (
-            <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.navy }]} />
-          ) : null,
+        tabBarBackground: () => (
+          <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.white }]} />
+        ),
       }}
     >
       <Tabs.Screen

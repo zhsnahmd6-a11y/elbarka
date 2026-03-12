@@ -1,37 +1,42 @@
-const GOLD = "#D4AF37";
-const GOLD_LIGHT = "#F0D060";
-const DEEP_NAVY = "#0A0E1A";
-const NAVY = "#111827";
-const NAVY_CARD = "#1A2235";
-const NAVY_BORDER = "#243050";
+const RED = "#CC1100";
+const RED_DARK = "#9B0D00";
+const RED_MEDIUM = "#E53935";
+const RED_LIGHT = "#FFEBEE";
+const RED_FAINT = "#FFF5F5";
 const WHITE = "#FFFFFF";
-const WHITE_DIM = "rgba(255,255,255,0.7)";
-const WHITE_FAINT = "rgba(255,255,255,0.12)";
-const RED_ACCENT = "#C0392B";
+const WHITE_OFF = "#FAFAFA";
+const DARK = "#1A1A1A";
+const DARK_MED = "#333333";
+const GRAY = "#757575";
+const GRAY_LIGHT = "#E0E0E0";
+const GRAY_BORDER = "#F0F0F0";
 
 export const Colors = {
-  gold: GOLD,
-  goldLight: GOLD_LIGHT,
-  deepNavy: DEEP_NAVY,
-  navy: NAVY,
-  navyCard: NAVY_CARD,
-  navyBorder: NAVY_BORDER,
+  red: RED,
+  redDark: RED_DARK,
+  redMedium: RED_MEDIUM,
+  redLight: RED_LIGHT,
+  redFaint: RED_FAINT,
   white: WHITE,
-  whiteDim: WHITE_DIM,
-  whiteFaint: WHITE_FAINT,
-  redAccent: RED_ACCENT,
-  text: WHITE,
-  textDim: WHITE_DIM,
-  tabActive: GOLD,
-  tabInactive: "rgba(255,255,255,0.4)",
+  whiteOff: WHITE_OFF,
+  dark: DARK,
+  darkMed: DARK_MED,
+  gray: GRAY,
+  grayLight: GRAY_LIGHT,
+  grayBorder: GRAY_BORDER,
+  background: WHITE,
+  text: DARK,
+  textDim: GRAY,
+  tabActive: RED,
+  tabInactive: GRAY,
 };
 
 export default {
   light: {
-    text: WHITE,
-    background: DEEP_NAVY,
-    tint: GOLD,
-    tabIconDefault: "rgba(255,255,255,0.4)",
-    tabIconSelected: GOLD,
+    text: DARK,
+    background: WHITE,
+    tint: RED,
+    tabIconDefault: GRAY,
+    tabIconSelected: RED,
   },
 };

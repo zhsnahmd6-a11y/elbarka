@@ -8,6 +8,7 @@ import {
   TextInput,
   FlatList,
   Platform,
+  Image,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -15,18 +16,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/colors";
 
 type SizePrice = { s?: number; m?: number; l?: number; single?: number };
-
-type MenuItem = {
-  name: string;
-  prices: SizePrice;
-};
-
-type MenuCategory = {
-  id: string;
-  nameAr: string;
-  icon: string;
-  items: MenuItem[];
-};
+type MenuItem = { name: string; prices: SizePrice };
+type MenuCategory = { id: string; nameAr: string; icon: string; items: MenuItem[] };
 
 const MENU: MenuCategory[] = [
   {
@@ -41,7 +32,6 @@ const MENU: MenuCategory[] = [
       { name: "فول زيت حار", prices: { s: 13, m: 13, l: 16 } },
       { name: "فول زيت زيتون", prices: { s: 13, m: 13, l: 16 } },
       { name: "فول البركة", prices: { s: 13, m: 16, l: 20 } },
-      { name: "فول اسكندراني", prices: { s: 14, m: 18, l: 20 } },
       { name: "فول بالبيض المسلوق", prices: { s: 20, m: 23, l: 25 } },
       { name: "فول بالبيض الاوملت", prices: { s: 20, m: 25, l: 28 } },
       { name: "فول بالسجق", prices: { s: 20, m: 25, l: 28 } },
@@ -321,17 +311,13 @@ export default function MenuScreen() {
     ({ item: cat }: { item: MenuCategory }) => (
       <View style={menuStyles.categorySection} key={cat.id}>
         <LinearGradient
-          colors={[Colors.navyCard, "#141E30"]}
+          colors={[Colors.red, Colors.redDark]}
           style={menuStyles.categoryHeader}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
         >
           <View style={menuStyles.catHeaderLeft}>
-            <MaterialCommunityIcons
-              name={cat.icon as any}
-              size={20}
-              color={Colors.gold}
-            />
+            <MaterialCommunityIcons name={cat.icon as any} size={18} color={Colors.white} />
             <Text style={menuStyles.categoryTitle}>{cat.nameAr}</Text>
           </View>
           <View style={menuStyles.catCount}>
@@ -350,32 +336,42 @@ export default function MenuScreen() {
 
   return (
     <View style={[menuStyles.container, { paddingTop: topPadding, paddingBottom: bottomPadding }]}>
-      <LinearGradient
-        colors={[Colors.deepNavy, "#0D1525", Colors.navy]}
-        style={StyleSheet.absoluteFill}
-      />
 
       {/* Top Header */}
-      <View style={menuStyles.topBar}>
-        <Text style={menuStyles.pageTitle}>قائمة الطعام</Text>
-        <Text style={menuStyles.pageSubtitle}>مطعم البركة</Text>
-      </View>
+      <LinearGradient
+        colors={[Colors.red, Colors.redDark]}
+        style={menuStyles.topBar}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+      >
+        <View style={menuStyles.topBarContent}>
+          <Image
+            source={require("@/assets/images/tray.jpg")}
+            style={menuStyles.topBarImg}
+            resizeMode="cover"
+          />
+          <View style={menuStyles.topBarTexts}>
+            <Text style={menuStyles.pageTitle}>قائمة الطعام</Text>
+            <Text style={menuStyles.pageSubtitle}>مطعم البركة · فرع النزهة</Text>
+          </View>
+        </View>
+      </LinearGradient>
 
       {/* Search Bar */}
       <View style={menuStyles.searchWrapper}>
         <View style={menuStyles.searchBar}>
-          <Feather name="search" size={18} color={Colors.whiteDim} />
+          <Feather name="search" size={18} color={Colors.gray} />
           <TextInput
             style={menuStyles.searchInput}
             placeholder="ابحث في القائمة..."
-            placeholderTextColor={Colors.whiteDim}
+            placeholderTextColor={Colors.gray}
             value={search}
             onChangeText={setSearch}
             textAlign="right"
           />
           {search.length > 0 && (
             <Pressable onPress={() => setSearch("")}>
-              <Feather name="x" size={18} color={Colors.whiteDim} />
+              <Feather name="x" size={18} color={Colors.gray} />
             </Pressable>
           )}
         </View>
@@ -403,10 +399,7 @@ export default function MenuScreen() {
             style={[menuStyles.chip, activeCategory === cat.id && menuStyles.chipActive]}
           >
             <Text
-              style={[
-                menuStyles.chipText,
-                activeCategory === cat.id && menuStyles.chipTextActive,
-              ]}
+              style={[menuStyles.chipText, activeCategory === cat.id && menuStyles.chipTextActive]}
             >
               {cat.nameAr.replace("سندوتشات ", "")}
             </Text>
@@ -414,18 +407,18 @@ export default function MenuScreen() {
         ))}
       </ScrollView>
 
-      {/* Size Legend */}
+      {/* Legend */}
       <View style={menuStyles.legend}>
         <View style={menuStyles.legendItem}>
-          <View style={[menuStyles.legendDot, { backgroundColor: "#5B8DEF" }]} />
+          <View style={[menuStyles.legendDot, { backgroundColor: "#1565C0" }]} />
           <Text style={menuStyles.legendText}>ص = صغير</Text>
         </View>
         <View style={menuStyles.legendItem}>
-          <View style={[menuStyles.legendDot, { backgroundColor: "#8B5CF6" }]} />
+          <View style={[menuStyles.legendDot, { backgroundColor: "#6A1B9A" }]} />
           <Text style={menuStyles.legendText}>و = وسط</Text>
         </View>
         <View style={menuStyles.legendItem}>
-          <View style={[menuStyles.legendDot, { backgroundColor: Colors.gold }]} />
+          <View style={[menuStyles.legendDot, { backgroundColor: Colors.red }]} />
           <Text style={menuStyles.legendText}>ك = كبير</Text>
         </View>
         <Text style={menuStyles.legendCount}>{totalResults} صنف</Text>
@@ -440,7 +433,7 @@ export default function MenuScreen() {
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 120 }}
         ListEmptyComponent={
           <View style={menuStyles.empty}>
-            <Feather name="search" size={40} color={Colors.whiteDim} />
+            <Feather name="search" size={40} color={Colors.gray} />
             <Text style={menuStyles.emptyText}>لا توجد نتائج</Text>
           </View>
         }
@@ -452,84 +445,108 @@ export default function MenuScreen() {
 const menuStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.deepNavy,
+    backgroundColor: Colors.whiteOff,
   },
   topBar: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    overflow: "hidden",
+  },
+  topBarContent: {
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 20,
-    paddingBottom: 8,
-    paddingTop: 12,
+    paddingVertical: 16,
+    gap: 14,
+  },
+  topBarImg: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    borderWidth: 2,
+    borderColor: "rgba(255,255,255,0.4)",
+  },
+  topBarTexts: {
+    flex: 1,
     alignItems: "flex-end",
   },
   pageTitle: {
-    fontSize: 28,
+    fontSize: 26,
     fontFamily: "Cairo_900Black",
     color: Colors.white,
   },
   pageSubtitle: {
     fontSize: 13,
     fontFamily: "Cairo_400Regular",
-    color: Colors.gold,
+    color: "rgba(255,255,255,0.8)",
     marginTop: -4,
   },
   searchWrapper: {
     paddingHorizontal: 16,
-    marginBottom: 8,
+    paddingVertical: 10,
+    backgroundColor: Colors.white,
   },
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.navyCard,
-    borderRadius: 14,
-    paddingHorizontal: 14,
+    backgroundColor: Colors.whiteOff,
+    borderRadius: 12,
+    paddingHorizontal: 12,
     paddingVertical: 10,
     gap: 10,
     borderWidth: 1,
-    borderColor: Colors.navyBorder,
+    borderColor: Colors.grayBorder,
   },
   searchInput: {
     flex: 1,
     fontSize: 15,
     fontFamily: "Cairo_400Regular",
-    color: Colors.white,
+    color: Colors.dark,
     padding: 0,
   },
   chipsScroll: {
-    maxHeight: 50,
-    marginBottom: 6,
+    maxHeight: 48,
+    backgroundColor: Colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.grayBorder,
   },
   chipsRow: {
     paddingHorizontal: 16,
+    paddingBottom: 8,
     gap: 8,
     alignItems: "center",
     flexDirection: "row-reverse",
   },
   chip: {
     paddingHorizontal: 14,
-    paddingVertical: 7,
+    paddingVertical: 6,
     borderRadius: 20,
-    backgroundColor: Colors.navyCard,
+    backgroundColor: Colors.whiteOff,
     borderWidth: 1,
-    borderColor: Colors.navyBorder,
+    borderColor: Colors.grayBorder,
   },
   chipActive: {
-    backgroundColor: Colors.gold,
-    borderColor: Colors.gold,
+    backgroundColor: Colors.red,
+    borderColor: Colors.red,
   },
   chipText: {
     fontSize: 12,
     fontFamily: "Cairo_600SemiBold",
-    color: Colors.whiteDim,
+    color: Colors.gray,
   },
   chipTextActive: {
-    color: Colors.deepNavy,
+    color: Colors.white,
   },
   legend: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
-    paddingBottom: 8,
+    paddingVertical: 8,
     gap: 12,
     justifyContent: "flex-end",
+    backgroundColor: Colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.grayBorder,
   },
   legendItem: {
     flexDirection: "row",
@@ -544,21 +561,21 @@ const menuStyles = StyleSheet.create({
   legendText: {
     fontSize: 11,
     fontFamily: "Cairo_400Regular",
-    color: Colors.whiteDim,
+    color: Colors.gray,
   },
   legendCount: {
     flex: 1,
     fontSize: 12,
     fontFamily: "Cairo_600SemiBold",
-    color: Colors.gold,
+    color: Colors.red,
     textAlign: "left",
   },
   categorySection: {
     marginBottom: 12,
-    borderRadius: 18,
+    borderRadius: 16,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: Colors.navyBorder,
+    borderColor: Colors.grayBorder,
   },
   categoryHeader: {
     flexDirection: "row",
@@ -570,29 +587,29 @@ const menuStyles = StyleSheet.create({
   catHeaderLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 8,
     flex: 1,
     justifyContent: "flex-end",
   },
   categoryTitle: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: "Cairo_700Bold",
-    color: Colors.gold,
+    color: Colors.white,
   },
   catCount: {
-    backgroundColor: Colors.gold + "33",
+    backgroundColor: "rgba(255,255,255,0.25)",
     borderRadius: 12,
     paddingHorizontal: 10,
-    paddingVertical: 3,
+    paddingVertical: 2,
     marginLeft: 10,
   },
   catCountText: {
     fontSize: 13,
     fontFamily: "Cairo_700Bold",
-    color: Colors.gold,
+    color: Colors.white,
   },
   categoryItems: {
-    backgroundColor: Colors.navy,
+    backgroundColor: Colors.white,
   },
   itemCard: {
     flexDirection: "row",
@@ -600,7 +617,7 @@ const menuStyles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderTopWidth: 1,
-    borderTopColor: Colors.navyBorder,
+    borderTopColor: Colors.grayBorder,
   },
   itemLeft: {
     flex: 1,
@@ -609,14 +626,14 @@ const menuStyles = StyleSheet.create({
   itemName: {
     fontSize: 14,
     fontFamily: "Cairo_600SemiBold",
-    color: Colors.white,
+    color: Colors.dark,
     textAlign: "right",
     lineHeight: 22,
   },
   sizeRow: {
     flexDirection: "row",
     gap: 4,
-    marginTop: 4,
+    marginTop: 3,
     justifyContent: "flex-end",
     flexWrap: "wrap",
   },
@@ -624,42 +641,42 @@ const menuStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 3,
-    backgroundColor: "#5B8DEF22",
-    borderRadius: 8,
+    backgroundColor: "#E3F2FD",
+    borderRadius: 6,
     paddingHorizontal: 6,
     paddingVertical: 2,
   },
   sizeBadgeMid: {
-    backgroundColor: "#8B5CF622",
+    backgroundColor: "#F3E5F5",
   },
   sizeBadgeLg: {
-    backgroundColor: Colors.gold + "22",
+    backgroundColor: "#FFEBEE",
   },
   sizeLabel: {
     fontSize: 11,
     fontFamily: "Cairo_700Bold",
-    color: Colors.whiteDim,
+    color: Colors.gray,
   },
   sizePrice: {
     fontSize: 11,
     fontFamily: "Cairo_700Bold",
-    color: Colors.white,
+    color: Colors.dark,
   },
   itemRight: {
     alignItems: "center",
     marginLeft: 12,
-    minWidth: 54,
+    minWidth: 56,
   },
   itemPrice: {
     fontSize: 15,
     fontFamily: "Cairo_700Bold",
-    color: Colors.gold,
+    color: Colors.red,
     textAlign: "center",
   },
   itemCurrency: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: "Cairo_400Regular",
-    color: Colors.whiteDim,
+    color: Colors.gray,
   },
   empty: {
     alignItems: "center",
@@ -669,6 +686,6 @@ const menuStyles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontFamily: "Cairo_600SemiBold",
-    color: Colors.whiteDim,
+    color: Colors.gray,
   },
 });
